@@ -7,11 +7,20 @@ const app = express();
 const cookieSession = require("cookie-session");
 const passportSetup = require("./passport");
 const port = 5000
-const passport = require("passport");
-
 const authRoute = require("./routes/auth");
 
+const passport = require("passport");
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+  })
+);
+
 app.use(morgan('combined'))
+
 
 dotenv.config();
 
@@ -27,20 +36,14 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(
-  cors({
-    "origin": "*",
-    "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-    "preflightContinue": false,
-    "optionsSuccessStatus": 204
-  })
-);
+
 
 app.use("/auth", authRoute);
+
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`App listening on port ${port}`)
 })
