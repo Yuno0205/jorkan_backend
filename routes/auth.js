@@ -9,7 +9,7 @@ router.get("/login/success", (req, res) => {
       success: true,
       message: "successfull",
       user: req.user,
-        // cookies: req.cookies
+      // cookies: req.cookies
     });
   }
 });
@@ -23,7 +23,7 @@ router.get("/login/failed", (req, res) => {
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect(CLIENT_URL + '/login');
+  res.redirect(CLIENT_URL + "/login");
 });
 
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
@@ -46,7 +46,10 @@ router.get(
   })
 );
 
-router.get("/facebook", passport.authenticate("facebook", { scope: ["profile"] }));
+router.get(
+  "/facebook",
+  passport.authenticate("facebook", { scope: ["email"] })
+);
 
 router.get(
   "/facebook/callback",
@@ -56,4 +59,4 @@ router.get(
   })
 );
 
-module.exports = router
+module.exports = router;

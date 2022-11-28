@@ -5,10 +5,9 @@ const dotenv = require('dotenv')
 const mongoose = require('mongoose');
 const app = express();
 const cookieSession = require("cookie-session");
-const passportSetup = require("./passport");
+const passportSetup = require("./config/passport");
 const port = 5000
 const authRoute = require("./routes/auth");
-
 const passport = require("passport");
 
 app.use(
@@ -25,10 +24,14 @@ app.use(morgan('combined'))
 dotenv.config();
 
 //Connect with DB
-mongoose.connect((process.env.MONGO_DB_URL) , () => {
-    console.log("Connected to Monggo DB !");
-})
+mongoose
+  .connect(process.env.MONGO_DB_URL)
+  .then(() => console.log("DB Connection Successfull!"))
+  .catch((err) => {
+    console.log(err);
+  });
 
+  //
 app.use(
   cookieSession({ name: "session", keys: ["Yuno"], maxAge: 24 * 60 * 60 * 100 })
 );
