@@ -24,6 +24,7 @@ passport.use(
       callbackURL: "/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
+      console.log("Token : " + accessToken);
       const newUser = {
         userId: profile.id,
         displayName: profile.displayName,
@@ -45,7 +46,6 @@ passport.use(
       } catch (err) {
         console.error(err);
       }
-      console.log(profile);
     }
   )
 );

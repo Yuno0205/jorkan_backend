@@ -1,14 +1,17 @@
-const express = require('express');
-const morgan = require('morgan');
-const cors = require('cors');
-const dotenv = require('dotenv')
-const mongoose = require('mongoose');
+const express = require("express");
+const morgan = require("morgan");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
 const app = express();
 const cookieSession = require("cookie-session");
 const passportSetup = require("./config/passport");
-const port = 5000
+const port = 5000;
 const authRoute = require("./routes/auth");
+const userRoute = require("./routes/user");
 const passport = require("passport");
+
+app.use(express.json());
 
 app.use(
   cors({
@@ -18,8 +21,7 @@ app.use(
   })
 );
 
-app.use(morgan('combined'))
-
+app.use(morgan("combined"));
 
 dotenv.config();
 
@@ -31,7 +33,7 @@ mongoose
     console.log(err);
   });
 
-  //
+//
 app.use(
   cookieSession({ name: "session", keys: ["Yuno"], maxAge: 24 * 60 * 60 * 100 })
 );
@@ -39,14 +41,13 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
 app.use("/auth", authRoute);
+app.use("/api/users", userRoute);
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 
 app.listen(port, () => {
-  console.log(`App listening on port ${port}`)
-})
+  console.log(`App listening on port ${port}`);
+});
