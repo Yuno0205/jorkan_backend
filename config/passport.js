@@ -24,7 +24,6 @@ passport.use(
       callbackURL: "/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log("Token : " + accessToken);
       const newUser = {
         userId: profile.id,
         displayName: profile.displayName,
@@ -32,6 +31,7 @@ passport.use(
         lastName: profile.name.familyName,
         image: profile.photos[0].value,
         provider: profile.provider,
+        accessToken: accessToken,
       };
 
       try {
@@ -58,6 +58,8 @@ passport.use(
       callbackURL: "/auth/github/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
+      console.log("Token : " + accessToken);
+
       console.log(profile);
 
       const newUser = {
@@ -91,6 +93,8 @@ passport.use(
       callbackURL: "/auth/facebook/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
+      console.log("Token : " + accessToken);
+
       const picture = `https://graph.facebook.com/${profile.id}/picture?width=200&height=200&access_token=${accessToken}`;
       //   done(null, profile);
       const newUser = {
