@@ -38,7 +38,6 @@ router.get("/find/:id", async (req, res) => {
 });
 
 //CREATE
-
 router.post("/", async (req, res) => {
   const newProduct = new Product(req.body);
 
