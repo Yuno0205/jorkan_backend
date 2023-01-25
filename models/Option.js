@@ -5,14 +5,10 @@ const OptionSchema = new mongoose.Schema(
     title: { type: String, required: true },
     imageMain: { type: Array, required: true },
     imageExtra: { type: Array, required: true },
-    brand: { type: String, required: true },
     color: { type: String, required: true },
-    description: { type: String, required: true },
-    category: { type: String, required: true },
     currentPrice: { type: Number, required: true },
     fullPrice: { type: Number },
     inOnSale: { type: Boolean, required: true, default: false },
-    gender: { type: Array, required: true },
     skuData: [
       {
         size: { type: Number, required: true },
@@ -21,7 +17,6 @@ const OptionSchema = new mongoose.Schema(
     ],
     discount: { type: Number, default: 0 },
     feature: { type: String },
-    subCategory: { type: Array },
   },
   { timestamps: true }
 );

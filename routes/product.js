@@ -50,7 +50,7 @@ router.get("/", async (req, res) => {
     const products = await Product.find({
       title: { $regex: search, $options: "i" },
     })
-      .populate("otherOptions")
+      .populate("options")
       .where("gender")
       .in([...gender])
       .sort(sortBy)
@@ -81,7 +81,9 @@ router.get("/", async (req, res) => {
 //GET PRODUCT
 router.get("/find/:id", async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate(
+      "otherOptions"
+    );
 
     res.status(200).json(product);
   } catch (err) {
