@@ -4,26 +4,77 @@ const router = require("express").Router();
 
 //GET ALL PRODUCTS
 router.get("/", async (req, res) => {
-  const qNew = req.query.new;
-  const qCategory = req.query.category;
-  try {
-    let products;
+  // const qNew = req.query.new;
+  // const qCategory = req.query.category;
+  // try {
+  //   let products;
 
-    if (qNew) {
-      products = await Product.find().sort({ createdAt: -1 }).limit(1);
-    } else if (qCategory) {
-      products = await Product.find({
-        categories: {
-          $in: [qCategory],
-        },
-      });
+  //   if (qNew) {
+  //     products = await Product.find().sort({ createdAt: -1 }).limit(1);
+  //   } else if (qCategory) {
+  //     products = await Product.find({
+  //       categories: {
+  //         $in: [qCategory],
+  //       },
+  //     });
+  //   } else {
+  //     products = await Product.find();
+  //   }
+
+  //   res.status(200).json(products);
+  // } catch (err) {
+  //   res.status(500).json(err);
+  // }
+
+  try {
+    const page = parseInt(req.query.page) - 1 || 0;
+    const limit = parseInt(req.query.limit) || 5;
+    const search = req.query.search || "";
+    let sort = req.query.sort || "rating";
+    let gender = req.query.gender || "All";
+
+    const genderOptions = ["Male", "Female", "Unisex"];
+
+    gender === "All"
+      ? (gender = [...genderOptions])
+      : (gender = req.query.gender.split(","));
+    req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
+
+    let sortBy = {};
+    if (sort[1]) {
+      sortBy[sort[0]] = sort[1];
     } else {
-      products = await Product.find();
+      sortBy[sort[0]] = "asc";
     }
 
-    res.status(200).json(products);
+    const products = await Product.find({
+      title: { $regex: search, $options: "i" },
+    })
+      .populate("otherOptions")
+      .where("gender")
+      .in([...gender])
+      .sort(sortBy)
+      .skip(page * limit)
+      .limit(limit);
+
+    const total = await Product.countDocuments({
+      gender: { $in: [...gender] },
+      title: { $regex: search, $options: "" },
+    });
+
+    const response = {
+      error: false,
+      total,
+      page: page + 1,
+      limit,
+      gender: genderOptions,
+      products,
+    };
+
+    res.status(200).json(response);
   } catch (err) {
-    res.status(500).json(err);
+    console.log(err);
+    res.status(500).json({ error: true, message: "Internal Server Error" });
   }
 });
 
@@ -31,6 +82,7 @@ router.get("/", async (req, res) => {
 router.get("/find/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
+
     res.status(200).json(product);
   } catch (err) {
     res.status(500).json(err);

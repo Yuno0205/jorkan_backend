@@ -10,6 +10,7 @@ const port = 5000;
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/user");
 const productRoute = require("./routes/product");
+const optionRoute = require("./routes/option");
 const orderRoute = require("./routes/order");
 const passport = require("passport");
 
@@ -46,6 +47,7 @@ app.use(passport.session());
 app.use("/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
+app.use("/api/options", optionRoute);
 app.use("/api/orders", orderRoute);
 
 app.get("/", (req, res) => {

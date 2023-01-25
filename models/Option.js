@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ProductSchema = new mongoose.Schema(
+const OptionSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     imageMain: { type: Array, required: true },
@@ -13,12 +13,6 @@ const ProductSchema = new mongoose.Schema(
     fullPrice: { type: Number },
     inOnSale: { type: Boolean, required: true, default: false },
     gender: { type: Array, required: true },
-    otherOptions: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Option",
-      },
-    ],
     skuData: [
       {
         size: { type: Number, required: true },
@@ -32,4 +26,4 @@ const ProductSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Product", ProductSchema);
+module.exports = mongoose.model("Option", OptionSchema);
