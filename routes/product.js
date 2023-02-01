@@ -1,43 +1,58 @@
 const Product = require("../models/Product");
+const Option = require("../models/Option");
 
 const router = require("express").Router();
 
 //GET ALL PRODUCTS
 router.get("/", async (req, res) => {
-  // const qNew = req.query.new;
-  // const qCategory = req.query.category;
-  // try {
-  //   let products;
-
-  //   if (qNew) {
-  //     products = await Product.find().sort({ createdAt: -1 }).limit(1);
-  //   } else if (qCategory) {
-  //     products = await Product.find({
-  //       categories: {
-  //         $in: [qCategory],
-  //       },
-  //     });
-  //   } else {
-  //     products = await Product.find();
-  //   }
-
-  //   res.status(200).json(products);
-  // } catch (err) {
-  //   res.status(500).json(err);
-  // }
-
   try {
     const page = parseInt(req.query.page) - 1 || 0;
     const limit = parseInt(req.query.limit) || 5;
     const search = req.query.search || "";
     let sort = req.query.sort || "rating";
     let gender = req.query.gender || "All";
+    let color = req.query.color || "All";
+    let size = req.query.size || "All";
 
     const genderOptions = ["Male", "Female", "Unisex"];
+    const colorOptions = [
+      "White",
+      "Black",
+      "Red",
+      "Blue",
+      "Purple",
+      "Yellow",
+      "Green",
+      "Brown",
+      "Pink",
+    ];
+
+    const sizeOptions = [
+      "35",
+      "35",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+    ];
 
     gender === "All"
       ? (gender = [...genderOptions])
       : (gender = req.query.gender.split(","));
+
+    color === "All"
+      ? (color = [...colorOptions])
+      : (color = req.query.color.split(","));
+
+    size === "All"
+      ? (size = [...sizeOptions])
+      : (size = req.query.size.split(","));
+
     req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
 
     let sortBy = {};
@@ -47,43 +62,93 @@ router.get("/", async (req, res) => {
       sortBy[sort[0]] = "asc";
     }
 
-    const products = await Product.find({
-      title: { $regex: search, $options: "i" },
-    })
-      .populate("options")
-      .where("gender")
-      .in([...gender])
-      .sort(sortBy)
-      .skip(page * limit)
-      .limit(limit);
+    const products = Option.find({ color: { $in: [...color] } }).then(
+      async (option) => {
+        const optionIds = option.map((item) => item._id);
+        const result = await Product.find({
+          title: { $regex: search, $options: "i" },
+          // gender: { $in: [...gender] },
+          options: { $in: optionIds },
+        })
+          .populate("options")
+          .where("gender")
+          .in([...gender])
+          .sort(sortBy)
+          .skip(page * limit)
+          .limit(limit);
 
-    const total = await Product.countDocuments({
-      gender: { $in: [...gender] },
-      title: { $regex: search, $options: "" },
-    });
+        const total = await Product.countDocuments({
+          gender: { $in: [...gender] },
+          title: { $regex: search, $options: "i" },
+        });
 
-    const response = {
-      error: false,
-      total,
-      page: page + 1,
-      limit,
-      gender: genderOptions,
-      products,
-    };
+        const response = {
+          error: false,
+          total,
+          page: page + 1,
+          limit,
+          gender: genderOptions,
+          color: colorOptions,
+          products: result,
+        };
 
-    res.status(200).json(response);
+        res.status(200).json(response);
+      }
+    );
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: true, message: "Internal Server Error" });
   }
 });
 
+// Test
+router.get("/test", async (req, res) => {
+  let color = req.query.color || "All";
+  const colorOptions = [
+    "White",
+    "Black",
+    "Red",
+    "Blue",
+    "Purple",
+    "Yellow",
+    "Green",
+    "Brown",
+    "Pink",
+  ];
+
+  color === "All"
+    ? (color = [...colorOptions])
+    : (color = req.query.color.split(","));
+  try {
+    Option.find({ color: { $in: [...color] } }).then(async (option) => {
+      const optionIds = option.map((item) => item._id);
+      const data = await Product.find({ options: { $in: optionIds } });
+      res.status(200).json(data);
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: true, message: "Internal Server Error" });
+  }
+});
+
+//
+router.get("/related/:id", async (req, res) => {
+  try {
+    const response = await Product.find({
+      options: { _id: req.params.id },
+    }).populate("options");
+
+    res.status(200).json(response);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: true, message: "Error" });
+  }
+});
+
 //GET PRODUCT
 router.get("/find/:id", async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id).populate(
-      "otherOptions"
-    );
+    const product = await Product.findById(req.params.id).populate("options");
 
     res.status(200).json(product);
   } catch (err) {
