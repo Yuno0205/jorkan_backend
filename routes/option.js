@@ -4,24 +4,51 @@ const router = require("express").Router();
 
 //GET ALL OPTION
 router.get("/", async (req, res) => {
-  const qNew = req.query.new;
-  const qCategory = req.query.category;
   try {
-    let products;
+    let options = await Option.find({});
+    res.status(200).json(options);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-    if (qNew) {
-      products = await Option.find().sort({ createdAt: -1 }).limit(1);
-    } else if (qCategory) {
-      products = await Option.find({
-        categories: {
-          $in: [qCategory],
-        },
-      });
-    } else {
-      products = await Option.find();
-    }
+router.get("/new", async (req, res) => {
+  try {
+    let options = await Option.find().sort({ createdAt: -1 }).limit(3);
+    res.status(200).json(options);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
-    res.status(200).json(products);
+//Arrivals
+router.get("/arrival", async (req, res) => {
+  try {
+    let options = await Option.find().sort({ createdAt: -1 }).limit(7);
+    res.status(200).json(options);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.get("/sale", async (req, res) => {
+  try {
+    let options = await Option.find({
+      discount: { $gt: 0 },
+    }).sort({ discount: -1 });
+    res.status(200).json(options);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.get("/search", async (req, res) => {
+  const search = req.query.search || "";
+  try {
+    let options = await Option.find({
+      title: { $regex: search, $options: "i" },
+    }).limit(5);
+    res.status(200).json(options);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -53,14 +80,14 @@ router.post("/", async (req, res) => {
 //UPDATE
 router.put("/:id", async (req, res) => {
   try {
-    const updatedProduct = await Product.findByIdAndUpdate(
+    const updatedOption = await Option.findByIdAndUpdate(
       req.params.id,
       {
         $set: req.body,
       },
       { new: true }
     );
-    res.status(200).json(updatedProduct);
+    res.status(200).json(updatedOption);
   } catch (err) {
     res.status(500).json(err);
   }
