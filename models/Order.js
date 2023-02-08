@@ -2,12 +2,10 @@ const mongoose = require("mongoose");
 
 const OrderSchema = new mongoose.Schema(
   {
-    customerInfo: [
-      {
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
-        phone: { type: String, required: true },
-      },
-    ],
+    customerInfo: {
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+      phone: { type: String, required: true },
+    },
     items: [
       {
         productId: { type: mongoose.Schema.Types.ObjectId, ref: "Products" },
