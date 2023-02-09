@@ -1,5 +1,17 @@
 {
   "version": 2,
+  "env": {
+    "MONGO_DB_URL": "mongodb+srv://yuno2001:hao252001@yunocluster.inr4mbr.mongodb.net/?retryWrites=true&w=majority",
+
+    "GOOGLE_CLIENT_ID": "933175687750-9i07dopt6mv26h1ccdanlheta64s4lrr.apps.googleusercontent.com",
+    "GOOGLE_CLIENT_SECRET": "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",
+
+    "GITHUB_CLIENT_ID": "a056ba8f96bc2fd64131",
+    "GITHUB_CLIENT_SECRET": "fe94c2a5e29e611f22eca00d86a9f063f2f4ea99",
+
+    "FACEBOOK_APP_ID": "1338271756713429",
+    "FACEBOOK_APP_SECRET": "9a0200314ca0b2cbb5eab0fa41ae0b4c"
+  },
   "builds": [
     {
       "src": "./index.js",
