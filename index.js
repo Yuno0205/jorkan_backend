@@ -18,7 +18,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })
@@ -55,5 +55,6 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
+  res.header("Access-Control-Allow-Origin", "*");
   console.log(`App listening on port ${port}`);
 });
