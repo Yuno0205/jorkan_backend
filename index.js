@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: "https://delightful-pithivier-ab0977.netlify.app",
-    methods: "GET,POST,PUT,DELETE",
+    methods: "GET,POST,PUT,DELETE,FETCH",
     credentials: true,
   })
 );
