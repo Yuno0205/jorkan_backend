@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const app = express();
 const cookieSession = require("cookie-session");
 const passportSetup = require("./config/passport");
-const port = 5000;
+
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/user");
 const productRoute = require("./routes/product");
