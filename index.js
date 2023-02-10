@@ -53,6 +53,19 @@ app.use("/api/products", productRoute);
 app.use("/api/options", optionRoute);
 app.use("/api/orders", orderRoute);
 
+app.use(function (req, res, next) {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://sensational-toffee-a5007d.netlify.app"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
