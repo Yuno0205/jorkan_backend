@@ -47,7 +47,7 @@ router.get("/search", async (req, res) => {
   try {
     let options = await Option.find({
       title: { $regex: search, $options: "i" },
-    }).limit(5);
+    }).limit(4);
     res.status(200).json(options);
   } catch (err) {
     res.status(500).json(err);
