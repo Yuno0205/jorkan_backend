@@ -19,8 +19,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      "https://delightful-pithivier-ab0977.netlify.app",
-      "http://delightful-pithivier-ab0977.netlify.app",
+      "https://sensational-toffee-a5007d.netlify.app/",
       "https://jorkan-backend.vercel.app",
     ],
     methods: "GET,POST,PUT,DELETE",
