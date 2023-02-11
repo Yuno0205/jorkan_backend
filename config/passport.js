@@ -90,7 +90,7 @@ passport.use(
     {
       clientID: FACEBOOK_APP_ID,
       clientSecret: FACEBOOK_APP_SECRET,
-      callbackURL: "/facebook/callback",
+      callbackURL: "/api/auth/facebook/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log("Token : " + accessToken);
