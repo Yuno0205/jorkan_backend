@@ -58,8 +58,6 @@ passport.use(
       callbackURL: "/api/auth/github/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log("Token : " + accessToken);
-
       console.log(profile);
 
       const newUser = {
