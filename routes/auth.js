@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 
-const CLIENT_URL = "https://sensational-toffee-a5007d.netlify.app/";
+const CLIENT_URL = "https://sensational-toffee-a5007d.netlify.app";
 
 router.get("/login/success", (req, res) => {
   if (req.user) {
