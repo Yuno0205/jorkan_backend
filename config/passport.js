@@ -55,7 +55,7 @@ passport.use(
     {
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: "/api/auth/github/callback",
+      callbackURL: "api/auth/github/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log("Token : " + accessToken);
