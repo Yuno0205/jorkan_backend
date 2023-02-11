@@ -5,9 +5,9 @@ const CLIENT_URL = "https://sensational-toffee-a5007d.netlify.app/";
 
 router.get("/login/success", (req, res) => {
   if (req.user) {
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
-      message: "successfull",
+      message: "Successfull",
       user: req.user,
     });
   }
