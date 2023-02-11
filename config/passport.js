@@ -55,7 +55,7 @@ passport.use(
     {
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: "api/auth/github/callback",
+      callbackURL: "/github/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log("Token : " + accessToken);
@@ -90,7 +90,7 @@ passport.use(
     {
       clientID: FACEBOOK_APP_ID,
       clientSecret: FACEBOOK_APP_SECRET,
-      callbackURL: "/api/auth/facebook/callback",
+      callbackURL: "/facebook/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log("Token : " + accessToken);
