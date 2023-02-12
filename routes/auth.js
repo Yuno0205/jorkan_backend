@@ -11,6 +11,12 @@ router.get("/login/success", (req, res) => {
       message: "Successfull",
       user: req.user,
     });
+  } else {
+    return res.status(200).json({
+      success: false,
+      message: "Failure",
+      user: {},
+    });
   }
 });
 
