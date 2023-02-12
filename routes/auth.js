@@ -18,40 +18,7 @@ router.get("/login/success", (req, res) => {
     });
   }
 });
-// const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-// router.post("/login/google", async (req, res, next) => {
-//   //const {idToken} = req.body;
-//   console.log("idToken", idToken);
-//   const ticket = await client.verifyIdToken({
-//     idToken: idToken,
-//     audience: process.env.GOOGLE_CLIENT_ID,
-//   });
-//   console.log("ticket nè", ticket);
-//   const { name, family_name, picture, sub, email } = ticket.getPayload();
-//   let user = await User.findOne({ email });
-//   if (!user) {
-//     user = await User.create({
-//       name,
-//       email,
-//       avatar: picture,
-//       googleId: sub,
-//       password: 123,
-//       displayName: toSlug(name),
-//     });
-//   }
-//   const accessToken = await user.generateToken();
 
-// return sendResponse(
-//     res,
-//     200,
-//     true,
-//     { user, accessToken },
-//     null,
-//     "Successfully sign up with google"
-//   );//
-//     "Successfully sign up with google"
-//   );//
-// });
 router.get("/login/failed", (req, res) => {
   res.status(401).json({
     success: false,
@@ -61,7 +28,7 @@ router.get("/login/failed", (req, res) => {
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect(CLIENT_URL + "/login");
+  res.redirect(CLIENT_URL + "login");
 });
 
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
