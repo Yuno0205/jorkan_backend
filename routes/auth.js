@@ -4,6 +4,7 @@ const passport = require("passport");
 const CLIENT_URL = "https://sensational-toffee-a5007d.netlify.app/";
 
 router.get("/login/success", (req, res) => {
+  console.log("Request is :", req);
   if (req.user) {
     return res.status(200).json({
       success: true,
