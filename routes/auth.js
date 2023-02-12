@@ -4,19 +4,19 @@ const passport = require("passport");
 const CLIENT_URL = "https://sensational-toffee-a5007d.netlify.app/";
 
 router.get("/login/success", (req, res) => {
-  console.log("Request is :", req);
-  if (req.user) {
-    return res.status(200).json({
-      success: true,
-      message: "Successfull",
-      user: req.user,
-    });
-  } else {
-    return res.json({
-      success: false,
-      message: "Failure !",
-    });
-  }
+  console.log("Request in success :", req);
+  // if (req?.user) {
+  return res.status(200).json({
+    success: true,
+    message: "Successfull",
+    user: req?.user,
+  });
+  // } else {
+  //   return res.json({
+  //     success: false,
+  //     message: "Failure !",
+  //   });
+  // }
 });
 
 router.get("/login/failed", (req, res) => {

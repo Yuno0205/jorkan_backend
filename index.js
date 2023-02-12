@@ -18,7 +18,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "https://sensational-toffee-a5007d.netlify.app",
+    origin: "*",
     credentials: true,
   })
 );
