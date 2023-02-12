@@ -15,7 +15,6 @@ router.get("/login/success", (req, res) => {
     return res.status(200).json({
       success: false,
       message: "Failure",
-      user: {},
     });
   }
 });
