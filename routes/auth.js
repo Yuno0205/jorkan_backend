@@ -12,9 +12,9 @@ router.get("/login/success", (req, res) => {
       user: req.user,
     });
   } else {
-    return res.status(200).json({
+    return res.json({
       success: false,
-      message: "Failure",
+      message: "Failure !",
     });
   }
 });
