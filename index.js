@@ -22,7 +22,7 @@ dotenv.config();
 
 app.use(
   cors({
-    origin: "https://exquisite-arithmetic-961559.netlify.app",
+    origin: "https://sensational-toffee-a5007d.netlify.app",
     credentials: true,
   })
 );
