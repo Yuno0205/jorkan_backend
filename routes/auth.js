@@ -1,20 +1,14 @@
 const router = require("express").Router();
 const passport = require("passport");
-// const { OAuth2Client } = require("google-auth-library");
-const CLIENT_URL = "https://sensational-toffee-a5007d.netlify.app/";
+const CLIENT_URL = "https://sensational-toffee-a5007d.netlify.app";
 
 router.get("/login/success", (req, res) => {
   if (req.user) {
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
-      message: "Successfull",
-      user: req?.user,
-    });
-  } else {
-    return res.status(500).json({
-      success: true,
-      message: "Error",
-      user: req?.user,
+      message: "successfull",
+      user: req.user,
+      cookies: req.cookies,
     });
   }
 });
@@ -28,7 +22,7 @@ router.get("/login/failed", (req, res) => {
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect(CLIENT_URL + "login");
+  res.redirect(CLIENT_URL);
 });
 
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));

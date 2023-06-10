@@ -1,4 +1,5 @@
 const express = require("express");
+var session = require("express-session");
 const morgan = require("morgan");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -23,6 +24,13 @@ app.use(
   })
 );
 
+app.use(
+  cors({
+    origin: "https://exquisite-arithmetic-961559.netlify.app",
+    credentials: true,
+  })
+);
+
 app.use(morgan("combined"));
 
 dotenv.config();
@@ -36,8 +44,20 @@ mongoose
   });
 
 //
+app.set("trust proxy", 1);
+
 app.use(
-  cookieSession({ name: "session", keys: ["Yuno"], maxAge: 24 * 60 * 60 * 100 })
+  session({
+    name: "Yuno",
+    secret: "nothowl",
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      sameSite: "none",
+      secure: true,
+      maxAge: 10000,
+    },
+  })
 );
 
 app.use(passport.initialize());
@@ -50,7 +70,7 @@ app.use("/api/options", optionRoute);
 app.use("/api/orders", orderRoute);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello World! Howl is here !");
 });
 
 app.listen(port, () => {
