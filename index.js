@@ -16,13 +16,9 @@ const orderRoute = require("./routes/order");
 const passport = require("passport");
 
 app.use(express.json());
+app.use(morgan("combined"));
 
-app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-  })
-);
+dotenv.config();
 
 app.use(
   cors({
@@ -30,18 +26,6 @@ app.use(
     credentials: true,
   })
 );
-
-app.use(morgan("combined"));
-
-dotenv.config();
-
-//Connect with DB
-mongoose
-  .connect(process.env.MONGO_DB_URL)
-  .then(() => console.log("DB Connection Successfull!"))
-  .catch((err) => {
-    console.log(err);
-  });
 
 //
 app.set("trust proxy", 1);
@@ -59,6 +43,14 @@ app.use(
     },
   })
 );
+
+//Connect with DB
+mongoose
+  .connect(process.env.MONGO_DB_URL)
+  .then(() => console.log("DB Connection Successfull!"))
+  .catch((err) => {
+    console.log(err);
+  });
 
 app.use(passport.initialize());
 app.use(passport.session());
