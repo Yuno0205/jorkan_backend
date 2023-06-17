@@ -21,7 +21,7 @@ passport.use(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://jorkan-backend.vercel.app/api/auth/google/callback",
+      callbackURL: "https://jorrkan-api.onrender.com/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       const newUser = {
@@ -55,7 +55,7 @@ passport.use(
     {
       clientID: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
-      callbackURL: "/api/auth/github/callback",
+      callbackURL: "https://jorrkan-api.onrender.com/api/auth/github/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log(profile);
@@ -88,7 +88,8 @@ passport.use(
     {
       clientID: FACEBOOK_APP_ID,
       clientSecret: FACEBOOK_APP_SECRET,
-      callbackURL: "/api/auth/facebook/callback",
+      callbackURL:
+        "https://jorrkan-api.onrender.com/api/auth/facebook/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log("Token : " + accessToken);

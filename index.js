@@ -22,7 +22,7 @@ dotenv.config();
 
 app.use(
   cors({
-    origin: "https://sensational-toffee-a5007d.netlify.app",
+    origin: "https://jorkan.vercel.app",
     credentials: true,
   })
 );
