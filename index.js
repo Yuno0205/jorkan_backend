@@ -39,7 +39,7 @@ app.use(
     cookie: {
       sameSite: "none",
       secure: true,
-      maxAge: 10000,
+      maxAge: 1000 * 60 * 60 * 3, //About 3 hours
     },
   })
 );
