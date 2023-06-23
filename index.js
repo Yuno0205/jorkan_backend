@@ -22,7 +22,7 @@ dotenv.config();
 
 app.use(
   cors({
-    origin: ["https://jorkan.vercel.app", "http://localhost:3000"],
+    origin: "https://jorkan.vercel.app",
     credentials: true,
   })
 );
