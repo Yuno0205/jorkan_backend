@@ -22,7 +22,7 @@ dotenv.config();
 
 app.use(
   cors({
-    origin: "https://jorkan.vercel.app",
+    origin: ["https://jorkan.vercel.app", "http://localhost:3000"],
     credentials: true,
   })
 );
@@ -39,7 +39,7 @@ app.use(
     cookie: {
       sameSite: "none",
       secure: true,
-      maxAge: 1000 * 60 * 60 * 3, //About 3 hours
+      maxAge: 1000 * 60 * 60 * 24, //About 1 day
     },
   })
 );
