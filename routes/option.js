@@ -44,10 +44,11 @@ router.get("/sale", async (req, res) => {
 
 router.get("/search", async (req, res) => {
   const search = req.query.search || "";
+  const limit = req.query.limit || 4;
   try {
     let options = await Option.find({
       title: { $regex: search, $options: "i" },
-    }).limit(4);
+    }).limit(limit);
     res.status(200).json(options);
   } catch (err) {
     res.status(500).json(err);
