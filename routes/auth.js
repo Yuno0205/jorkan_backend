@@ -34,13 +34,18 @@ router.get(
     failureRedirect: "/login/failed",
   }),
   (req, res) => {
-    res.redirect(CLIENT_URL);
+    if (err) return res.status(500).json({ message: "Internal server error " });
+
+    // Nếu người dùng không tồn tại, hoặc xảy ra lỗi xác thực, thông báo lỗi đăng nhập
+    if (!user) return res.status(401).json({ message: "Unauthorized" });
 
     const payload = {
       id: req.user._id,
     };
     const token = jwt.sign(payload, "HOWL_0205", { expiresIn: "3d" });
     res.json({ token });
+
+    res.redirect(CLIENT_URL);
   }
 );
 
