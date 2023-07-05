@@ -52,8 +52,8 @@ router.get(
     const token = jwt.sign(payload, "HOWL_0205", { expiresIn: "3d" });
     res.json({ token });
 
-    // //  Chuyển hướng người dùng về CLIENT_URL
-    // res.redirect(CLIENT_URL);
+    res.setHeader("Authorization", `Bearer ${token}`);
+    res.redirect(CLIENT_URL); // Chuyển hướng trở về client
   }
 );
 
