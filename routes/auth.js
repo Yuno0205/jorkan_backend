@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const router = require("express").Router();
 const passport = require("passport");
 const CLIENT_URL = "https://jorkan.vercel.app";
@@ -30,9 +31,17 @@ router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: CLIENT_URL,
     failureRedirect: "/login/failed",
-  })
+  }),
+  (req, res) => {
+    res.redirect(CLIENT_URL);
+
+    const payload = {
+      id: req.user._id,
+    };
+    const token = jwt.sign(payload, "HOWL_0205", { expiresIn: "3d" });
+    res.json({ token });
+  }
 );
 
 router.get("/github", passport.authenticate("github", { scope: ["profile"] }));
