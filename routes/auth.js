@@ -34,17 +34,25 @@ router.get(
     failureRedirect: "/login/failed",
   }),
   (req, res) => {
-    if (err) return res.status(500).json({ message: "Internal server error " });
+    // Xử lý lỗi nếu có
+    if (req.authError) {
+      return res
+        .status(500)
+        .json({ message: "Internal server error , pls check it again !" });
+    }
 
-    // Nếu người dùng không tồn tại, hoặc xảy ra lỗi xác thực, thông báo lỗi đăng nhập
-    if (!user) return res.status(401).json({ message: "Unauthorized" });
+    // Kiểm tra xem người dùng đã xác thực tồn tại hay không
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
 
-    const payload = {
-      id: req.user._id,
-    };
-    const token = jwt.sign(payload, "HOWL_0205", { expiresIn: "3d" });
-    res.json({ token });
+    // const payload = {
+    //   id: req.user._id,
+    // };
+    // const token = jwt.sign(payload, "HOWL_0205", { expiresIn: "3d" });
+    // res.json({ token });
 
+    // Chuyển hướng người dùng về CLIENT_URL
     res.redirect(CLIENT_URL);
   }
 );
