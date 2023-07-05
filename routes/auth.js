@@ -46,14 +46,14 @@ router.get(
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    // const payload = {
-    //   id: req.user._id,
-    // };
-    // const token = jwt.sign(payload, "HOWL_0205", { expiresIn: "3d" });
-    // res.json({ token });
+    const payload = {
+      id: req.user._id,
+    };
+    const token = jwt.sign(payload, "HOWL_0205", { expiresIn: "3d" });
+    res.json({ token });
 
-    // Chuyển hướng người dùng về CLIENT_URL
-    res.redirect(CLIENT_URL);
+    // //  Chuyển hướng người dùng về CLIENT_URL
+    // res.redirect(CLIENT_URL);
   }
 );
 
