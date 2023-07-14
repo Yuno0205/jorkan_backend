@@ -16,6 +16,8 @@ GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
 FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 
+JWT_SECRET = process.env.JWT_SECRET;
+
 passport.use(
   new GoogleStrategy(
     {
@@ -24,6 +26,9 @@ passport.use(
       callbackURL: "https://jorrkan-api.onrender.com/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
+      // Tạo JWT token chứa dữ liệu người dùng
+      const token = jwt.sign(profile, JWT_SECRET);
+
       const newUser = {
         userId: profile.id,
         displayName: profile.displayName,
@@ -31,16 +36,17 @@ passport.use(
         lastName: profile.name.familyName,
         image: profile.photos[0].value,
         provider: profile.provider,
-        accessToken: accessToken,
       };
 
       try {
         let user = await User.findOne({ userId: profile.id });
 
         if (user) {
+          user.token = token;
           done(null, user);
         } else {
           user = await User.create(newUser);
+          user.token = token;
           done(null, user);
         }
       } catch (err) {

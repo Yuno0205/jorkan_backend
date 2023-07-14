@@ -9,7 +9,6 @@ router.get("/login/success", (req, res) => {
       success: true,
       message: "successfull",
       user: req.user,
-      cookies: req.cookies,
     });
   }
 });
@@ -27,34 +26,6 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
-
-// router.get(
-//   "/google/callback",
-//   passport.authenticate("google", {
-//     failureRedirect: "/login/failed",
-//   }),
-//   (req, res) => {
-//     // Xử lý lỗi nếu có
-//     if (req.authError) {
-//       return res
-//         .status(500)
-//         .json({ message: "Internal server error , pls check it again !" });
-//     }
-
-//     // Kiểm tra xem người dùng đã xác thực tồn tại hay không
-//     if (!req.user) {
-//       return res.status(401).json({ message: "Unauthorized" });
-//     }
-
-//     const payload = {
-//       id: req.user._id,
-//     };
-//     const token = jwt.sign(payload, "HOWL_0205", { expiresIn: "3d" });
-
-//     // res.setHeader("Authorization", `Bearer ${token}`);
-//     res.redirect(`${CLIENT_URL}?token=${token}`); // Chuyển hướng trở về client
-//   }
-// );
 
 router.get(
   "/google/callback",

@@ -7,13 +7,16 @@ const mongoose = require("mongoose");
 const app = express();
 const cookieSession = require("cookie-session");
 const passportSetup = require("./config/passport");
-const port = 5000;
+
 const authRoute = require("./routes/auth");
 const userRoute = require("./routes/user");
 const productRoute = require("./routes/product");
 const optionRoute = require("./routes/option");
 const orderRoute = require("./routes/order");
+const cartRoute = require("./routes/cart");
 const passport = require("passport");
+
+const { port, JWT_SECRET } = process.env;
 
 app.use(express.json());
 app.use(morgan("combined"));
@@ -32,10 +35,10 @@ app.set("trust proxy", 1);
 
 app.use(
   session({
-    name: "Yuno",
-    secret: "nothowl",
-    resave: true,
-    saveUninitialized: true,
+    name: "Howl",
+    secret: JWT_SECRET,
+    resave: false,
+    saveUninitialized: false,
     cookie: {
       sameSite: "none",
       secure: true,
@@ -60,6 +63,7 @@ app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
 app.use("/api/options", optionRoute);
 app.use("/api/orders", orderRoute);
+app.use("/api/cart", cartRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello World! Howl is here !");
