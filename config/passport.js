@@ -42,11 +42,12 @@ passport.use(
         let user = await User.findOne({ userId: profile.id });
 
         if (user) {
-          user.token = token;
+          user = { ...user, token };
+          user = await user.save();
           done(null, user);
         } else {
-          user = await User.create(newUser);
-          user.token = token;
+          const newUserWithToken = { ...newUser, token };
+          user = await User.create(newUserWithToken);
           done(null, user);
         }
       } catch (err) {
