@@ -43,7 +43,7 @@ passport.use(
         let user = await User.findOne({ userId: profile.id });
 
         if (user) {
-          user = { ...user, token };
+          user = { ...user._doc, token };
           done(null, user);
         } else {
           const newUserWithToken = { ...newUser, token };
