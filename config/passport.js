@@ -4,6 +4,7 @@ const FacebookStrategy = require("passport-facebook").Strategy;
 const passport = require("passport");
 const dotenv = require("dotenv");
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 dotenv.config();
 
