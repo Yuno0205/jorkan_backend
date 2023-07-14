@@ -44,7 +44,6 @@ passport.use(
 
         if (user) {
           user = { ...user, token };
-          user = await user.save();
           done(null, user);
         } else {
           const newUserWithToken = { ...newUser, token };
