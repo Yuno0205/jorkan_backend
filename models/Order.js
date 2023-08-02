@@ -4,7 +4,9 @@ const OrderSchema = new mongoose.Schema(
   {
     customerInfo: {
       userId: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
-      phone: { type: String, required: true },
+      phoneNumber: { type: String, required: true },
+      name: { type: String, required: true, default: "Anonymous customer" },
+      email: { type: String },
     },
     items: [
       {
@@ -17,7 +19,7 @@ const OrderSchema = new mongoose.Schema(
     ],
     total: { type: Number, required: true },
     address: { type: Object, required: true },
-    status: { type: String, default: "pending" },
+    status: { type: String, default: "Pending" },
   },
   { timestamps: true }
 );

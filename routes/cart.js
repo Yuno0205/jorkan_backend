@@ -56,7 +56,10 @@ router.get("/find/:userId", async (req, res) => {
 
 router.get("/", verifyToken, async (req, res) => {
   try {
-    const carts = await Cart.find();
+    const carts = await Cart.find().populate({
+      path: "products.productId",
+      populate: { path: "options", model: "Option" },
+    });
     res.status(200).json(carts);
   } catch (err) {
     res.status(500).json(err);
