@@ -19,6 +19,7 @@ const OrderSchema = new mongoose.Schema(
         color: { type: String, required: true },
         image: { type: String, required: true },
         title: { type: String, required: true },
+        feature: { type: String },
       },
     ],
     total: { type: Number, required: true },
